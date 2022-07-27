@@ -10,6 +10,7 @@ export const Player = (props: Props) => {
   const { data: session } = useSession();
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [play, setPlay] = useState<boolean>(false);
 
   const { selectedSong } = useAppContext();
 
@@ -21,6 +22,10 @@ export const Player = (props: Props) => {
     main();
   }, [session]);
 
+  useEffect(() => {
+    setPlay(true);
+  }, [selectedSong]);
+
   const check = (state: any) => {};
 
   console.log(selectedSong);
@@ -29,10 +34,14 @@ export const Player = (props: Props) => {
     <div className="w-full bg-gray-900 text-white absolute bottom-0 p-4">
       {accessToken && (
         <SpotifyPlayer
-          callback={check}
-          play={selectedSong ? true : false}
+          callback={(state) => {
+            if (!state.isPlaying) setPlay(false);
+          }}
+          autoPlay
+          play={play}
           token={accessToken}
           uris={selectedSong ? [selectedSong] : []}
+          showSaveIcon
         />
       )}
     </div>
