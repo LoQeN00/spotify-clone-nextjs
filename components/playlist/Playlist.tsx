@@ -8,10 +8,9 @@ type Props = {
 };
 
 const Playlist = ({ data }: Props) => {
-  console.log(data);
   return (
     <div className="p-8 pb-24">
-      <PlaylistHeader playlistName={data.playlistName} />
+      <PlaylistHeader playlistName={data.playlistName} playlistImage={data.playlistImage} />
       <div className="space-y-8">
         {data?.items.map((item, index) => {
           return <Track key={item.track.id} track={item.track} idx={index + 1} />;
