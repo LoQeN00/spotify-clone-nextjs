@@ -6,6 +6,8 @@ import Playlist from '../../components/playlist/Playlist';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
+import Head from 'next/head';
+import { useAppContext } from '../../components/context/useAppContext';
 
 type Props = {};
 
@@ -23,8 +25,13 @@ const PlayListDetailPage = (props: Props) => {
     getPlaylistDetails(playlistId as string)
   );
 
+  const { selectedSong } = useAppContext();
+
   return (
     <div className="h-screen overflow-y-scroll flex-1">
+      <Head>
+        <title>{data?.playlistName}</title>
+      </Head>
       {isLoading && <ClipLoader size={150} />}
       {data && <Playlist data={data} />}
     </div>
